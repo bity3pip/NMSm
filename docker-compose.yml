@@ -1,0 +1,45 @@
+networks:
+  dev:
+    driver: bridge
+
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_HOST='db'
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    networks:
+      - dev
+    env_file:
+      - .env
+
+  web:
+    profiles: [ '', 'local_db' ]
+    build:
+       context: .
+    environment:
+      - PYTHONPATH=/app
+    volumes:
+      - ./app:/app
+      - shared_volume:/app/shared_storage
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    networks:
+      - dev
+    env_file:
+      - .env
+
+volumes:
+  postgres_data:
+  shared_volume:
