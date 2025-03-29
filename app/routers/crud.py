@@ -16,7 +16,6 @@ def create_note(db: Session, note: schemas.NoteCreate):
     db.commit()
     db.refresh(db_note)
 
-    # Create the first version
     version = models.NoteVersion(note_id=db_note.id, version_number=1, content=note.content)
     db.add(version)
     db.commit()
@@ -32,7 +31,6 @@ def update_note_content(db: Session, note_id: int, content: str):
         db_note.updated_at = models.datetime.utcnow()
         db.commit()
 
-        # Create a new version
         version_number = len(db_note.versions) + 1
         new_version = models.NoteVersion(note_id=db_note.id, version_number=version_number, content=content)
         db.add(new_version)

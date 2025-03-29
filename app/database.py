@@ -12,10 +12,8 @@ DATABASE_URL = f"postgresql+psycopg2://{os.getenv('POSTGRES_USER')}:{os.getenv('
 MAX_RETRIES = 5
 RETRY_DELAY = 5
 
-# ✅ Define Base
 Base = declarative_base()
 
-# ✅ Create engine
 for i in range(MAX_RETRIES):
     try:
         engine = create_engine(DATABASE_URL)

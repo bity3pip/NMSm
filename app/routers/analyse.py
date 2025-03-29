@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from database import SessionLocal
 from sqlalchemy.orm import Session
-from analytics import analyze_notes
+from .analytics import analyze_notes
 
 
 router = APIRouter()
