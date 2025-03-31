@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from database import SessionLocal
+from ..database import SessionLocal
 from sqlalchemy.orm import Session
 from .analytics import analyze_notes
 

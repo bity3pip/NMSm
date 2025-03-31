@@ -1,11 +1,12 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Index
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from datetime import datetime
-from database import Base
+from .database import Base
 
 class Note(Base):
     __tablename__ = "notes"
+    __table_args__ = {"extend_existing": True}
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
@@ -17,6 +18,7 @@ class Note(Base):
 
 class NoteVersion(Base):
     __tablename__ = "note_versions"
+    __table_args__ = {"extend_existing": True}
 
     id = Column(Integer, primary_key=True, index=True)
     note_id = Column(Integer, ForeignKey("notes.id"))

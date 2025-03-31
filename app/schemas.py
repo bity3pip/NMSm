@@ -41,3 +41,7 @@ class NoteVersionInDB(NoteVersionBase):
 
 class NoteDetail(NoteInDB):
     versions: List[NoteVersionInDB] = []
+
+
+class NoteInput(BaseModel):
+    note: str

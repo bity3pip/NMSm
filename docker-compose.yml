@@ -1,45 +1,21 @@
-networks:
-  dev:
-    driver: bridge
-
+version: '3'
 services:
-  db:
-    image: postgres
-    environment:
-      - POSTGRES_HOST='db'
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
-      interval: 10s
-      retries: 5
-      start_period: 30s
-      timeout: 10s
-    networks:
-      - dev
-    env_file:
-      - .env
-
   web:
-    profiles: [ '', 'local_db' ]
-    build:
-       context: .
-    environment:
-      - PYTHONPATH=/app
-    volumes:
-      - ./app:/app
-      - shared_volume:/app/shared_storage
-    depends_on:
-      - db
+    build: .
     ports:
       - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://admin:password@db:5432/fastapi_db
     networks:
-      - dev
-    env_file:
-      - .env
-
-volumes:
-  postgres_data:
-  shared_volume:
+      - app-network
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: fastapi_db
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge

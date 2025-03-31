@@ -1,6 +1,6 @@
 from collections import Counter
 from sqlalchemy.orm import Session
-from models import Note
+from app.models import Note
 
 def analyze_notes(db: Session):
     notes = db.query(Note).all()
