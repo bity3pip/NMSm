@@ -13,7 +13,7 @@ AI can analyze text, help with creating a note title and context, look into your
 1) Cloning the repository:
 
 ```console
-$ git clone https://github.com/bity3pip/NMSm
+$ git clone https://github.com/bity3pip/NMSm.git
 ```
 2) Build the Docker image:
 
